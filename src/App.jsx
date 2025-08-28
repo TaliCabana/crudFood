@@ -3,6 +3,7 @@ import Footer from "./components/shared/Footer";
 import Inicio from "./components/pages/Inicio";
 import DetalleProducto from "./components/pages/DetalleProducto";
 import Administrador from "./components/pages/Administrador";
+import FormularioProducto from "./components/pages/producto/FormularioProducto";
 import Error404 from "./components/pages/Error404";
 import Login from "./components/pages/Login";
 import { BrowserRouter, Routes, Route } from "react-router";
@@ -23,6 +24,14 @@ function App() {
           <Route
             path="/administrador"
             element={<Administrador></Administrador>}
+          />
+          <Route
+            path="/administrador/crear"
+            element={<FormularioProducto></FormularioProducto>}
+          />
+          <Route
+            path="/administrador/editar"
+            element={<FormularioProducto></FormularioProducto>}
           />
           <Route path="*" element={<Error404></Error404>} />
         </Routes>
