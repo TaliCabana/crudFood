@@ -7,11 +7,16 @@ import FormularioProducto from "./components/pages/producto/FormularioProducto";
 import Error404 from "./components/pages/Error404";
 import Login from "./components/pages/Login";
 import { BrowserRouter, Routes, Route } from "react-router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 BrowserRouter;
 
 function App() {
-const [usuarioLogueado, setUsuarioLogueado] = useState(false);
+const sesionUsuario = JSON.parse(sessionStorage.getItem('usuarioKey')) || false 
+const [usuarioLogueado, setUsuarioLogueado] = useState(sesionUsuario);
+
+useEffect(()=>{
+  sessionStorage.setItem('usuarioKey', JSON.stringify(usuarioLogueado))
+},[usuarioLogueado])
 
   return (
     <>
