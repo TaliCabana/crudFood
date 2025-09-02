@@ -1,7 +1,8 @@
 import { Card, Button, Row, Col, Form } from "react-bootstrap";
 import { useForm } from "react-hook-form";
+import Swal from "sweetalert2";
 
-const Login = () => {
+const Login = ({setUsuarioLogueado}) => {
   const {
     register,
     handleSubmit,
@@ -10,7 +11,22 @@ const Login = () => {
 
   const onSubmit = (data) => {
     console.log(data);
-    //   agregar logica de login
+    if (
+      data.email === import.meta.env.VITE_API_EMAIL &&
+      data.password === import.meta.env.VITE_API_PASSWORD
+    ) {
+      console.log('aqui logueo al usuario')
+      //aqui logueo al usuario
+      //1- actualizar el estado
+      setUsuarioLogueado(true)
+      //2- redireccionar a la pagina del administrador
+    } else {
+      Swal.fire({
+        title: "Ocurrio un error",
+        text: "Credenciales incorrectas",
+        icon: "error",
+      });
+    }
   };
 
   return (
@@ -58,7 +74,7 @@ const Login = () => {
                     })}
                   />
                   <Form.Text className="text-danger">
-                     {errors.password?.message}
+                    {errors.password?.message}
                   </Form.Text>
                 </Form.Group>
                 <Button variant="warning" type="submit">
