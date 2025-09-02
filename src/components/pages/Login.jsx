@@ -25,7 +25,7 @@ const Login = () => {
                 <Form.Group className="mb-3" controlId="formBasicEmail">
                   <Form.Label>Email:</Form.Label>
                   <Form.Control
-                    type="text"
+                    type="email"
                     placeholder="Ej: juanperez@mail.com"
                     {...register("email", {
                       required: "El email es un dato obligatorio",
@@ -47,9 +47,18 @@ const Login = () => {
                   <Form.Control
                     type="password"
                     placeholder="Ingresa una contraseña"
+                    {...register("password", {
+                      required: "La contraseña es un dato obligatorio",
+                      pattern: {
+                        value:
+                          /^(?=.*\d)(?=.*[\u0021-\u002b\u003c-\u0040])(?=.*[A-Z])(?=.*[a-z])\S{8,16}$/,
+                        message:
+                          "La contraseña debe tener entre 8 y 16 caracteres, al menos un dígito, al menos una minúscula, al menos una mayúscula y al menos un caracter especial.",
+                      },
+                    })}
                   />
                   <Form.Text className="text-danger">
-                    
+                     {errors.password?.message}
                   </Form.Text>
                 </Form.Group>
                 <Button variant="warning" type="submit">
