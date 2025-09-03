@@ -8,20 +8,25 @@ import Error404 from "./components/pages/Error404";
 import Login from "./components/pages/Login";
 import { BrowserRouter, Routes, Route } from "react-router";
 import { useEffect, useState } from "react";
+import ProtectorAdmin from "./components/routes/ProtectorAdmin";
 BrowserRouter;
 
 function App() {
-const sesionUsuario = JSON.parse(sessionStorage.getItem('usuarioKey')) || false 
-const [usuarioLogueado, setUsuarioLogueado] = useState(sesionUsuario);
+  const sesionUsuario =
+    JSON.parse(sessionStorage.getItem("usuarioKey")) || false;
+  const [usuarioLogueado, setUsuarioLogueado] = useState(sesionUsuario);
 
-useEffect(()=>{
-  sessionStorage.setItem('usuarioKey', JSON.stringify(usuarioLogueado))
-},[usuarioLogueado])
+  useEffect(() => {
+    sessionStorage.setItem("usuarioKey", JSON.stringify(usuarioLogueado));
+  }, [usuarioLogueado]);
 
   return (
     <>
       <BrowserRouter>
-        <Menu usuarioLogueado={usuarioLogueado} setUsuarioLogueado={setUsuarioLogueado}></Menu>
+        <Menu
+          usuarioLogueado={usuarioLogueado}
+          setUsuarioLogueado={setUsuarioLogueado}
+        ></Menu>
         <main className="container my-3">
           <Routes>
             <Route path="/" element={<Inicio></Inicio>} />
@@ -29,19 +34,32 @@ useEffect(()=>{
               path="/detalle"
               element={<DetalleProducto></DetalleProducto>}
             />
-            <Route path="/login" element={<Login setUsuarioLogueado={setUsuarioLogueado}></Login>} />
+            <Route
+              path="/login"
+              element={<Login setUsuarioLogueado={setUsuarioLogueado}></Login>}
+            />
             <Route
               path="/administrador"
-              element={<Administrador></Administrador>}
-            />
-            <Route
-              path="/administrador/crear"
-              element={<FormularioProducto></FormularioProducto>}
-            />
-            <Route
-              path="/administrador/editar"
-              element={<FormularioProducto></FormularioProducto>}
-            />
+              element={
+                <ProtectorAdmin
+                  usuarioLogueado={usuarioLogueado}
+                ></ProtectorAdmin>
+              }
+            >
+              <Route
+                index
+                element={<Administrador></Administrador>}
+              />
+              <Route
+                path="crear"
+                element={<FormularioProducto></FormularioProducto>}
+              />
+              <Route
+                path="editar"
+                element={<FormularioProducto></FormularioProducto>}
+              />
+            </Route>
+
             <Route path="*" element={<Error404></Error404>} />
           </Routes>
         </main>
