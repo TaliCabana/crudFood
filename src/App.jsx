@@ -31,6 +31,12 @@ function App() {
     return true
   }
 
+  const borrarProducto = (idProducto)=>{
+    const productosFiltrados = productos.filter((itemProducto)=> itemProducto.id !== idProducto)
+    setProductos(productosFiltrados)
+    return true
+  }
+
   return (
     <>
       <BrowserRouter>
@@ -63,6 +69,7 @@ function App() {
                   <Administrador
                     setProductos={setProductos}
                     productos={productos}
+                    borrarProducto={borrarProducto}
                   ></Administrador>
                 }
               />
