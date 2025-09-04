@@ -22,9 +22,14 @@ function App() {
     sessionStorage.setItem("usuarioKey", JSON.stringify(usuarioLogueado));
   }, [usuarioLogueado]);
 
-  useEffect(()=>{
-    localStorage.setItem("productosKey", JSON.stringify(productos))
-  },[productos])
+  useEffect(() => {
+    localStorage.setItem("productosKey", JSON.stringify(productos));
+  }, [productos]);
+
+  const crearProducto = (productoNuevo)=>{
+    setProductos([...productos, productoNuevo])
+    return true
+  }
 
   return (
     <>
@@ -63,11 +68,11 @@ function App() {
               />
               <Route
                 path="crear"
-                element={<FormularioProducto></FormularioProducto>}
+                element={<FormularioProducto titulo='Crear Producto' crearProducto={crearProducto}></FormularioProducto>}
               />
               <Route
                 path="editar"
-                element={<FormularioProducto></FormularioProducto>}
+                element={<FormularioProducto titulo='Editar Producto'></FormularioProducto>}
               />
             </Route>
 
