@@ -9,6 +9,7 @@ import Login from "./components/pages/Login";
 import { BrowserRouter, Routes, Route } from "react-router";
 import { useEffect, useState } from "react";
 import ProtectorAdmin from "./components/routes/ProtectorAdmin";
+import { set } from "react-hook-form";
 BrowserRouter;
 
 function App() {
@@ -34,6 +35,27 @@ function App() {
   const borrarProducto = (idProducto)=>{
     const productosFiltrados = productos.filter((itemProducto)=> itemProducto.id !== idProducto)
     setProductos(productosFiltrados)
+    return true
+  }
+
+  const buscarProducto = (idProducto)=>{
+    const productoBuscado = productos.find((itemProducto)=> itemProducto.id === idProducto)
+    return productoBuscado
+  }
+
+  const modificarProducto = (idProducto, datosProducto)=>{
+    const productosActualizados = productos.map((itemProducto)=>{
+      if(itemProducto.id === idProducto){
+        //actualizar el producto
+        return {
+          ...itemProducto,
+          ...datosProducto
+        }
+      }
+      return itemProducto
+    })
+    //actualizar el state
+    setProductos(productosActualizados)
     return true
   }
 
@@ -78,7 +100,7 @@ function App() {
                 element={<FormularioProducto titulo='Crear Producto' crearProducto={crearProducto}></FormularioProducto>}
               />
               <Route
-                path="editar"
+                path="editar/:id"
                 element={<FormularioProducto titulo='Editar Producto'></FormularioProducto>}
               />
             </Route>
