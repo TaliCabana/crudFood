@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { Form, Button } from "react-bootstrap";
 import { useForm } from "react-hook-form";
-import { useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import Swal from "sweetalert2";
 import { v4 as uuidv4 } from 'uuid';
 
@@ -15,6 +15,7 @@ const FormularioProducto = ({ titulo, crearProducto, buscarProducto, modificarPr
     formState: { errors },
   } = useForm();
   const { id } = useParams();
+  const navegacion = useNavigate();
 
   useEffect(() => {
     if(titulo === 'Editar Producto'){
@@ -45,6 +46,23 @@ const FormularioProducto = ({ titulo, crearProducto, buscarProducto, modificarPr
       }
     } else {
       //aqui tengo que agregar el editar
+      if(modificarProducto(id,data)){
+        //mostrar un cartel de producto modificado
+        Swal.fire({
+          title: "Producto modificado",
+          text: `El producto ${data.nombreProducto} se actualizo correctamente`,
+          icon: "success",
+        });
+        //redireccionar a la tabla del administrador
+        navegacion('/administrador')
+      }else{
+        //sin no se modifico mostrar un mensaje de error
+         Swal.fire({
+          title: "Ocurrio un error",
+          text: `No se pudo actualizar el producto ${data.nombreProducto}`,
+          icon: "error",
+        });
+      }
     }
   };
 
@@ -128,6 +146,7 @@ const FormularioProducto = ({ titulo, crearProducto, buscarProducto, modificarPr
           >
             <option value="">Seleccione una opcion</option>
             <option value="Acompañamientos">Acompañamientos</option>
+            <option value="Bebidas">Bebidas</option>
             <option value="Ensaladas">Ensaladas</option>
             <option value="Hamburguesas">Hamburguesas</option>
             <option value="Postres">Postres</option>
