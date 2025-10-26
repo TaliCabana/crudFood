@@ -68,7 +68,7 @@ const productos = [
         precio: 4000,
         descripcion_breve: "Sándwich de bondiola de cerdo desmechada en pan ciabatta",
         descripcion_amplia: "Carne de bondiola de cerdo cocida a fuego lento por horas, desmechada y sazonada. Servida en pan ciabatta con un toque de salsa barbacoa y cebolla caramelizada.",
-        categoria: "Sándwiches y Wraps",
+        categoria: "Sandwiches y Wraps",
         imagen: "https://images.pexels.com/photos/33706251/pexels-photo-33706251.jpeg"
     },
     {

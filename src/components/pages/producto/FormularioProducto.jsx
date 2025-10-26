@@ -4,13 +4,9 @@ import { useForm } from "react-hook-form";
 import { useNavigate, useParams } from "react-router";
 import Swal from "sweetalert2";
 import { v4 as uuidv4 } from "uuid";
-import { obtenerProductosPorID } from "../../../helpers/queries";
+import { crearProducto, editarProductoAPI, obtenerProductosPorID } from "../../../helpers/queries";
 
-const FormularioProducto = ({
-  titulo,
-  crearProducto,
-  modificarProducto,
-}) => {
+const FormularioProducto = ({ titulo, modificarProducto }) => {
   const {
     register,
     handleSubmit,
@@ -40,27 +36,32 @@ const FormularioProducto = ({
         setValue("descripcion_amplia", productoBuscado.descripcion_amplia);
         setValue("categoria", productoBuscado.categoria);
       } else {
-        alert('Ocurrió un error inténtelo más tarde')
+        alert("Ocurrió un error inténtelo más tarde");
       }
     }
   };
 
-  const onSubmit = (data) => {
+  const onSubmit = async (data) => {
     if (titulo === "Crear Producto") {
       //agregar id
-      data.id = uuidv4();
-      console.log(data);
-      if (crearProducto(data)) {
+      const respuesta = await crearProducto(data);
+      // Quito lo del id ya que mongo lo crea en esta instancia del proyecto
+      /*       data.id = uuidv4();
+      console.log(data); */
+      if (respuesta.status === 201) {
         Swal.fire({
           title: "Producto creado",
           text: `El producto ${data.nombreProducto} se creo correctamente`,
           icon: "success",
         });
         reset();
+      } else {
+        alert("Ocurrió un error, inténtelo luego.");
       }
     } else {
       //aqui tengo que agregar el editar
-      if (modificarProducto(id, data)) {
+      const respuesta = await editarProductoAPI(id, data)
+      if (respuesta.status === 200) {
         //mostrar un cartel de producto modificado
         Swal.fire({
           title: "Producto modificado",
@@ -165,7 +166,7 @@ const FormularioProducto = ({
             <option value="Hamburguesas">Hamburguesas</option>
             <option value="Postres">Postres</option>
             <option value="Pizzas">Pizzas</option>
-            <option value="Sándwiches y Wraps">Sándwiches y Wraps</option>
+            <option value="Sandwiches y Wraps">Sandwiches y Wraps</option>
             <option value="Veggie/Veganas">Veggie/Veganas</option>
           </Form.Select>
           <Form.Text className="text-danger">
