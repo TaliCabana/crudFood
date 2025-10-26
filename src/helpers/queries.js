@@ -12,3 +12,14 @@ export const listarProductos = async () => {
         return null // si retorna nulo es xq algo falló
     }
 }
+
+export const obtenerProductosPorID = async (id) => {
+    try{
+        const respuesta = await fetch (`${productosBackend}/${id}`)
+        console.log(respuesta)
+        return respuesta
+    } catch (error) {
+        console.error(error)
+        return null // si retorna nulo es xq algo falló
+    }
+}
