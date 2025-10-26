@@ -57,3 +57,16 @@ export const editarProductoAPI = async (id, producto) => {
         return null // si retorna nulo es xq algo falló
     }
 }
+
+export const borrarProductoAPI = async (id) => {
+    try{
+        const respuesta = await fetch (productosBackend+'/'+id, {
+            method: 'DELETE',
+        })
+        console.log(respuesta)
+        return respuesta
+    } catch (error) {
+        console.error(error)
+        return null // si retorna nulo es xq algo falló
+    }
+}
