@@ -4,26 +4,23 @@ import { Link } from "react-router";
 import { useEffect, useState } from "react";
 import { listarProductos } from "../../helpers/queries";
 
+const Administrador = ({ borrarProducto }) => {
+  const [productos, setProductos] = useState([]);
 
-const Administrador = ({borrarProducto}) => {
+  useEffect(() => {
+    obtenerProductos();
+  }, []);
 
-const [productos, setProductos] = useState([])
-
-useEffect (()=>{
-  obtenerProductos();
-},[])
-
-const obtenerProductos = async () => {
-  // 1- Solicitar los datos al backend con la funcion de queries
-  const respuesta = await listarProductos ()
-  // 2- Verificar que los datos llegaron correctamente
-  if (respuesta.status === 200){
-    const datos = await respuesta.json()
-  // 3- Cargo los productos en el state
-  setProductos(datos)
-  }
-
-}
+  const obtenerProductos = async () => {
+    // 1- Solicitar los datos al backend con la funcion de queries
+    const respuesta = await listarProductos();
+    // 2- Verificar que los datos llegaron correctamente
+    if (respuesta.status === 200) {
+      const datos = await respuesta.json();
+      // 3- Cargo los productos en el state
+      setProductos(datos);
+    }
+  };
 
   return (
     <section className="container mainSection">
@@ -34,7 +31,7 @@ const obtenerProductos = async () => {
             <i className="bi bi-file-earmark-plus"></i>
           </Link>
           {/* Botón para cargar datos de prueba 👇🏽 */}
-{/*           <Button
+          {/*           <Button
             variant="info"
             className="text-light"
             onClick={cargarProductosPrueba}
@@ -56,9 +53,14 @@ const obtenerProductos = async () => {
           </tr>
         </thead>
         <tbody>
-          {
-            productos.map((itemProducto, indice)=> <ItemProducto itemProducto={itemProducto} key={itemProducto.id} borrarProducto={borrarProducto} fila={indice + 1}></ItemProducto>)
-          }
+          {productos.map((itemProducto, indice) => (
+            <ItemProducto
+              itemProducto={itemProducto}
+              key={itemProducto._id}
+              borrarProducto={borrarProducto}
+              fila={indice + 1}
+            ></ItemProducto>
+          ))}
         </tbody>
       </Table>
     </section>
