@@ -59,6 +59,7 @@ const Administrador = ({ borrarProducto }) => {
               key={itemProducto._id}
               borrarProducto={borrarProducto}
               fila={indice + 1}
+              setProductos={setProductos}
             ></ItemProducto>
           ))}
         </tbody>
