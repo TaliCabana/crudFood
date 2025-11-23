@@ -1,4 +1,5 @@
 const productosBackend = import.meta.env.VITE_API_PRODUCTOS
+const usuariosBackend = import.meta.env.VITE_API_USUARIOS
 
 console.log(productosBackend)
 
@@ -62,6 +63,23 @@ export const borrarProductoAPI = async (id) => {
     try{
         const respuesta = await fetch (productosBackend+'/'+id, {
             method: 'DELETE',
+        })
+        console.log(respuesta)
+        return respuesta
+    } catch (error) {
+        console.error(error)
+        return null // si retorna nulo es xq algo falló
+    }
+}
+
+export const login = async (usuario) => {
+    try{
+        const respuesta = await fetch (usuariosBackend+'login', {
+            method: 'POST',
+            headers: {
+                'Content-Type':'application/json'
+            },
+            body: JSON.stringify(usuario)
         })
         console.log(respuesta)
         return respuesta
