@@ -1,7 +1,11 @@
 import { Container, Card, Row, Col } from "react-bootstrap";
+import {useParams} from "react-router"
 
 const DetalleProducto = () => {
   
+  const {id} = useParams();
+  console.log("ID recibido", id);
+
   return (
     <Container className="my-3 mainSection cabin-sketch-regular">
       <Card>
@@ -15,13 +19,13 @@ const DetalleProducto = () => {
           </Col>
           <Col md={6}>
             <Card.Body>
-              <Card.Title className="fs-2">Pizza Margarita Clásica</Card.Title>
+              <Card.Title className="fs-2">{/* {producto.nombreProducto}*/}</Card.Title>
               <hr />
               <Card.Text className="fs-5">
-              Nuestra pizza margarita artesanal hecha con masa madre, salsa de tomate casera, queso mozzarella de búfala premium y hojas frescas de albahaca. Horneada en horno de piedra para obtener ese crujiente perfecto.
+{/* {producto.descripción_amplia}*/}
               <br/>
               <br/>
-              <span className="fw-semibold ">Categoria:</span> comida
+              <span className="fw-semibold ">Categoria:</span> {/* producto.categoria */}
               <br className='mb-3'/>
               <span className="fw-semibold ">Precio: $4500</span></Card.Text>
             </Card.Body>

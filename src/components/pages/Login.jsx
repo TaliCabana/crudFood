@@ -4,30 +4,32 @@ import { useNavigate } from "react-router";
 import Swal from "sweetalert2";
 import { login } from "../../helpers/queries";
 
-const Login = ({setUsuarioLogueado}) => {
+const Login = ({ setUsuarioLogueado }) => {
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
- const navegacion =  useNavigate()
-
+  const navegacion = useNavigate();
 
   const onSubmit = async (data) => {
-    const respuesta = await login(data)
-    if(respuesta.status === 200){
+    const respuesta = await login(data);
+    if (respuesta.status === 200) {
       //aqui logueo al usuario
       //1- actualizar el estado
-      setUsuarioLogueado(true);
-  
+      const datos = await respuesta.json();
+      setUsuarioLogueado({
+        usuario: datos.usuario,
+        token: datos.token,
+      });
+
       //2- redireccionar a la pagina del administrador
       Swal.fire({
         title: "Bienvenido Administrador",
         text: "Iniciaste sesion correctamente",
         icon: "success",
       });
-      navegacion('/administrador')
-  
+      navegacion("/administrador");
     } else {
       Swal.fire({
         title: "Ocurrió un error",
