@@ -27,13 +27,24 @@ export const obtenerProductosPorID = async (id) => {
 
 export const crearProducto = async (producto) => {
   try {
+    const formData = new formData()
+    formData.append('nombreProducto', producto.nombreProducto)
+    formData.append('precio', producto.precio)
+    formData.append('categoria', producto.categoria)
+    formData.append('descripcion_breve', producto.descripcion_breve)
+    formData.append('descripcion_amplia', producto.descripcion_amplia)
+    formData.append('imagen', producto.imagen)
+
+ 
+
+
     const respuesta = await fetch(productosBackend, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        "x-token": JSON.parse(sessionStorage.getItem("usuarioKey")).toke,
+        "x-token": JSON.parse(sessionStorage.getItem("usuarioKey")).token,
       },
-      body: JSON.stringify(producto),
+      body: formData,
     });
     console.log(respuesta);
     return respuesta;

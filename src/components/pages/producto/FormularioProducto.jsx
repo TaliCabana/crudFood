@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Form, Button } from "react-bootstrap";
 import { useForm } from "react-hook-form";
 import { useNavigate, useParams } from "react-router";
@@ -12,10 +12,14 @@ const FormularioProducto = ({ titulo, modificarProducto }) => {
     handleSubmit,
     reset,
     setValue,
+    setField,
     formState: { errors },
   } = useForm();
   const { id } = useParams(); // este id hace referencia a la ruta, o sea que este no es necesario cambiar (es el de :id)
   const navegacion = useNavigate();
+
+  const [imagenActual, setImagenActual] = useState("");
+  const [preview, setPreview] = useState("");
 
   useEffect(() => {
     buscarProducto();
@@ -42,25 +46,33 @@ const FormularioProducto = ({ titulo, modificarProducto }) => {
   };
 
   const onSubmit = async (data) => {
+    console.log(data);
+const productoForm = {
+  ...data,
+  imagen: data.imagen[0], // File
+}
+console.log(productoForm)
+
     if (titulo === "Crear Producto") {
       //agregar id
-      const respuesta = await crearProducto(data);
+      const respuesta = await crearProducto(productoForm); 
       // Quito lo del id ya que mongo lo crea en esta instancia del proyecto
       /*       data.id = uuidv4();
       console.log(data); */
-      if (respuesta.status === 201) {
+       if (respuesta.status === 201) {
         Swal.fire({
           title: "Producto creado",
           text: `El producto ${data.nombreProducto} se creo correctamente`,
           icon: "success",
         });
         reset();
+        setPreview('');
       } else {
         alert("Ocurrió un error, inténtelo luego.");
       }
     } else {
       //aqui tengo que agregar el editar
-      const respuesta = await editarProductoAPI(id, data)
+      const respuesta = await editarProductoAPI(id, productoForm)
       if (respuesta.status === 200) {
         //mostrar un cartel de producto modificado
         Swal.fire({
